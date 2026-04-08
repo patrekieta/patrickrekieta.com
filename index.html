@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patrick Rekieta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1D9E75;
+      --text-primary: #1a1a1a;
+      --text-secondary: #555;
+      --text-tertiary: #999;
+      --border: rgba(0,0,0,0.12);
+      --bg: #ffffff;
+      --bg-secondary: #f7f7f5;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --text-primary: #f0f0ee;
+        --text-secondary: #aaa;
+        --text-tertiary: #666;
+        --border: rgba(255,255,255,0.12);
+        --bg: #111110;
+        --bg-secondary: #1a1a18;
+      }
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: start;
+      padding: 3rem 3rem 2rem;
+      border-bottom: 0.5px solid var(--border);
+      gap: 2rem;
+    }
+
+    .header-left { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .name {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .name span { color: var(--green); }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 0.5rem;
+    }
+
+    .nav-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .nav-link:hover { border-color: var(--green); color: var(--green); }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
+    .body { padding: 2rem 3rem 3rem; display: grid; gap: 2.5rem; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: var(--border);
+    }
+
+    .bio {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 680px;
+    }
+
+    .bio strong { color: var(--text-primary); font-weight: 500; }
+
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1rem; }
+
+    .pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 0.5px solid var(--border);
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .project-card {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+
+    .project-card:hover { border-color: var(--green); }
+    .project-card:hover .card-arrow { color: var(--green); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .card-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--green);
+      text-transform: uppercase;
+    }
+
+    .card-arrow {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      transition: color 0.15s;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.25rem; }
+
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 100px;
+      background: var(--bg-secondary);
+      color: var(--text-tertiary);
+      border: 0.5px solid var(--border);
+    }
+
+    .contact-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .contact-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      padding: 10px 18px;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .contact-btn:hover { border-color: var(--green); color: var(--green); }
+
+    .footer {
+      padding: 1.5rem 3rem;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      margin-right: 6px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @media (max-width: 680px) {
+      .header { grid-template-columns: 1fr; padding: 2rem 1.5rem 1.5rem; }
+      .header-right { flex-direction: row; flex-wrap: wrap; }
+      .body { padding: 1.5rem 1.5rem 2rem; }
+      .name { font-size: 32px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-left">
+      <div class="name">Patrick<br><span>Rekieta</span></div>
+      <div class="subtitle">Public Health Data Analyst/Scientist · CDC Contractor · MS-DS <br>Minneapolis, MN</div>
+    </div>
+    <div class="header-right">
+      <a class="nav-link" href="https://github.com/patrekieta" target="_blank"><span class="dot"></span>github</a>
+      <a class="nav-link" href="https://linkedin.com/in/patrickrekieta" target="_blank"><span class="dot"></span>linkedin</a>
+      <a class="nav-link" href="https://orcid.org/0009-0005-4446-9665" target="_blank"><span class="dot"></span>ORCID</a>
+      <a class="nav-link" href="mailto:patrick.rekieta@gmail.com"><span class="dot"></span>email</a>
+    </div>
+  </div>
+
+  <div class="body">
+    <div>
+      <div class="section-label">about</div>
+      <div class="bio">
+        Public health data analyst/scientist with 5+ years of experience transforming complex epidemiological data into actionable insights. 
+        Currently supporting the <a href = "https://www.cdc.gov/nssp/index.html">National Syndromic Surveillance Program</a> as a CDC contractor(ICF International).  
+        I support CDC initiatives through custom query analysis and development using <a href="https://www.cdc.gov/nssp/php/onboarding-toolkits/essence.html">ESSENCE</a> and SQL. 
+        In addition to queries, I develop custom interactive Quarto reports and Shiny applications which are used to inform national public health surveillance. 
+        Recently completed my M.S. in Data Science with a focus on machine learning and causal inference methods. Passionate about applying advanced analytics to improve health outcomes and public policy.
+      </div>
+      <div class="stack">
+        <span class="pill">R</span>
+        <span class="pill">Python</span>
+        <span class="pill">SQL</span>
+        <span class="pill">PySpark</span>
+        <span class="pill">PowerBI</span>
+        <span class="pill">Shiny</span>
+        <span class="pill">Statistics</span>
+        <span class="pill">Git</span>
+        <span class="pill">Github</span>
+        <span class="pill">Jira</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">projects</div>
+      <div class="projects-grid">
+        <a class="project-card" href="https://shiny.patrickrekieta.com/fwcapital" target="_blank">
+          <div class="card-top">
+            <div class="card-type">shiny app</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Fort Worth Capital Projects</div>
+          <div class="card-desc">Interactive map of City of Fort Worth capital infrastructure projects. Browse by location, type, status, and district.</div>
+          <div class="card-tags">
+            <span class="card-tag">R</span>
+            <span class="card-tag">Shiny</span>
+            <span class="card-tag">Leaflet</span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/patrekieta/cdcdata" target="_blank">
+          <div class="card-top">
+            <div class="card-type">R package</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">CDCdata</div>
+          <div class="card-desc">API wrapper for data.cdc.gov using the Socrata/SoQL platform. Query, fetch, discover, and search CDC datasets from R.</div>
+          <div class="card-tags">
+            <span class="card-tag">R</span>
+            <span class="card-tag">httr2</span>
+            <span class="card-tag">OAuth</span>
+            <span class="card-tag">Public Health</span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/patrekieta/echarts4r" target="_blank">
+          <div class="card-top">
+            <div class="card-type">R package</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Echarts4r</div>
+          <div class="card-desc">Contributor for the Echarts4r CRAN Package and Github Repository. Led the upgrade to version 6 of Echarts. This repository has 600+ stars and 6000+ downloads per month.</div>
+          <div class="card-tags">
+            <span class="card-tag">R</span>
+            <span class="card-tag">Data Viz</span>
+            <span class="card-tag">JavaScript</span>
+            <span class="card-tag">htmlwidgets</span>
+          </div>
+        </a>
+
+        <a class="project-card" href="https://github.com/patrekieta" target="_blank">
+          <div class="card-top">
+            <div class="card-type">github</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title"> Explore more projects</div>
+          <div class="card-desc">JHU COVID-19 analysis, echarts4r contributions, ML coursework including CNNs, CycleGAN, and NLP classifiers.</div>
+          <div class="card-tags">
+            <span class="card-tag">Python</span>
+            <span class="card-tag">ML</span>
+            <span class="card-tag">R</span>
+            <span class="card-tag">Data Viz</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label">Authorship</div>
+      <div class="projects-grid">
+
+        <a class="project-card" href="https://knowledgerepository.syndromicsurveillance.org/ehrlichiosis-v1" target="_blank">
+          <div class="card-top">
+            <div class="card-type">ESSENCE Query</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Ehrlichiosis v1</div>
+        </a>
+
+        <a class="project-card" href="https://knowledgerepository.syndromicsurveillance.org/spotted-fever-rickettsiosis-v1" target="_blank">
+          <div class="card-top">
+            <div class="card-type">ESSENCE Query</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Spotted Fever Rickettsiosis v1</div>
+        </a>
+
+        <a class="project-card" href="https://knowledgerepository.syndromicsurveillance.org/toxic-shock-syndrome" target="_blank">
+          <div class="card-top">
+            <div class="card-type">ESSENCE Query</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Toxic Shock Syndrome</div>
+        </a>
+
+        <a class="project-card" href="https://knowledgerepository.syndromicsurveillance.org/all-animal-bites-v1" target="_blank">
+          <div class="card-top">
+            <div class="card-type">ESSENCE Query</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">All Animal Bites v1</div>
+        </a>
+
+        <a class="project-card" href="https://knowledgerepository.syndromicsurveillance.org/rubella-v1" target="_blank">
+          <div class="card-top">
+            <div class="card-type">ESSENCE Query</div>
+            <div class="card-arrow">↗</div>
+          </div>
+          <div class="card-title">Rubella V1</div>
+        </a>
+
+      </div>
+    </div>
+
+
+    <div>
+      <div class="section-label">contact</div>
+      <div class="contact-row">
+        <a class="contact-btn" href="mailto:patrick.rekieta@gmail.com">✉ patrick.rekieta@gmail.com</a>
+        <a class="contact-btn" href="https://github.com/patrekieta" target="_blank">⌥ github.com/patrekieta</a>
+        <a class="contact-btn" href="https://linkedin.com/in/patrickrekieta" target="_blank">in linkedin</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-text"><span class="status-dot"></span>patrickrekieta.com · Minneapolis, MN</div>
+  </div>
+</body>
+</html>
